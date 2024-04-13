@@ -1897,21 +1897,81 @@
         {
             "language": "typescript",
             "source": [
-                "//Solution\ninterface Attackable {\n    attack(): string;\n}\n\ninterface Defendable {\n    defend(): string;\n}\n\n// classes for attacking\nclass Club implements Attackable {\n    attack(): string {\n        return \" is attacking with a Club\";\n    }\n}\n\nclass Sword implements Attackable {\n    attack(): string {\n        return \" is attacking with a Sword\";\n    }\n}\n\nclass Bow implements Attackable {\n    attack(): string {\n        return \" is attacking with a Bow and Arrow\";\n    }\n}\n\n// classes for defending\n\n// with shield\nclass Shield implements Defendable {\n    defend(): string {\n        return \" is defending with a Shield\";\n    }\n}\n\n//with armor\nclass Armor implements Defendable {\n    defend(): string {\n        return \" is defending with Armor\";\n    }\n}\n\n// with tunic\nclass Tunic implements Defendable {\n    defend(): string {\n        return \" is defending with Tunic\";\n    }\n}\n\nabstract class Character implements Attackable, Defendable {\n    protected attackAbility$: Attackable;\n    protected defendAbility$: Defendable;\n    \n    constructor(private _name:string, private _gold:number=0){}\n\n    get name():string{\n        return this._name\n    }\n    get gold():number{\n        return this._gold\n    }\n\n    public attack(): string {\n        return this.name + this.attackAbility$.attack();\n    }\n    public defend(): string {\n        return this.name + this.defendAbility$.defend();\n    }\n\n    public collectGold(amount:number):void{\n        this._gold += amount;\n        console.log(`${this.name} collected ${amount} gold. There total is now ${this.gold} gold`)\n    }   \n}\n  \n\n"
+                "//Solution\ninterface Attackable {\n    attack(): string;\n}\n\ninterface Defendable {\n    defend(): string;\n}\n\n// classes for attacking\nclass Club implements Attackable {\n    attack(): string {\n        return \" is attacking with a Club\";\n    }\n}\n\nclass Sword implements Attackable {\n    attack(): string {\n        return \" is attacking with a Sword\";\n    }\n}\n\nclass Bow implements Attackable {\n    attack(): string {\n        return \" is attacking with a Bow and Arrow\";\n    }\n}\n\n// classes for defending\n\n// with shield\nclass Shield implements Defendable {\n    defend(): string {\n        return \" is defending with a Shield\";\n    }\n}\n\n//with armor\nclass Armor implements Defendable {\n    defend(): string {\n        return \" is defending with Armor\";\n    }\n}\n\n// with tunic\nclass Tunic implements Defendable {\n    defend(): string {\n        return \" is defending with Tunic\";\n    }\n}\n\nabstract class Character implements Attackable, Defendable {\n    protected attackAbility$: Attackable;\n    protected defendAbility$: Defendable;\n    \n    constructor(private _name:string, private _gold:number=0){}\n\n    get name():string{\n        return this._name\n    }\n    get gold():number{\n        return this._gold\n    }\n\n    set attackAbility(attackMethod:Attackable) {\n        this.attackAbility = attackMethod\n    }\n\n    public attack(): string {\n        return this.name + this.attackAbility$.attack();\n    }\n    public defend(): string {\n        return this.name + this.defendAbility$.defend();\n    }\n\n    public collectGold(amount:number):void{\n        this._gold += amount;\n        console.log(`${this.name} collected ${amount} gold. There total is now ${this.gold} gold`)\n    }   \n}\n  \n\n"
             ],
             "outputs": []
         },
         {
             "language": "typescript",
             "source": [
-                "// - Ogres - fights with club and defends with shield\nclass Ogres extends Character {\n    attackAbility$ = new Club();\n    defendAbility$ = new Shield();\n}\n// - Peons - fights with club and defends with shield\nclass Peons extends Character {\n    attackAbility$ = new Club();\n    defendAbility$ = new Shield();\n}\n// - Knights - fights with a Sword and defends with Armor\nclass Knights extends Character {\n    attackAbility$ = new Sword();\n    defendAbility$ = new Armor();\n}\n// - Archer - fights with Bow and Arrow and has only is tunic to protect the\nclass Archer extends Character {\n    attackAbility$ = new Bow();\n    defendAbility$ = new Tunic();\n}\n"
+                "// - Ogres - fights with club and defends with shield\nclass Ogres extends Character {\n    attackAbility$ = new Club();\n    defendAbility$ = new Shield();\n}\n// - Peons - fights with club and defends with shield\nclass Peons extends Character {\n    attackAbility$ = new Club();\n    defendAbility$ = new Shield();\n}\n// - Knights - fights with a Sword and defends with Armor\nclass Knights extends Character {\n    attackAbility$ = new Sword();\n    defendAbility$ = new Armor();\n}\n// - Archer - fights with Bow and Arrow and has only is tunic to protect the\nclass Archer extends Character {\n    attackAbility$ = new Bow();\n    defendAbility$ = new Tunic();\n}\n\nfunction getRandomNumber():number{\n    return Math.ceil(Math.random() * 25)\n}"
             ],
             "outputs": []
         },
         {
             "language": "typescript",
             "source": [
-                "// create instances \nlet shrek = new Ogres('Shrek');\nlet donkey = new Peons('Donkey');\nlet princeCharming = new Knights('Prince Charming');\nlet monsieurHood = new Archer('Monsieur Hood');"
+                "// create instances \nlet shrek = new Ogres('Shrek');\nlet donkey = new Peons('Donkey');\nlet princeCharming = new Knights('Prince Charming');\nlet monsieurHood = new Archer('Monsieur Hood');\n\n\nlet allChars: Character[] = [shrek, donkey, princeCharming, monsieurHood]"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "for (let char of allChars){\n    console.log(char.attack())\n    console.log(char.defend())\n    console.log(char.collectGold(getRandomNumber()))\n}"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "Shrek is attacking with a Club",
+                                "Shrek is defending with a Shield",
+                                "Shrek collected 14 gold. There total is now 34 gold",
+                                "undefined",
+                                "Donkey is attacking with a Club",
+                                "Donkey is defending with a Shield",
+                                "Donkey collected 19 gold. There total is now 27 gold",
+                                "undefined",
+                                "Prince Charming is attacking with a Sword",
+                                "Prince Charming is defending with Armor",
+                                "Prince Charming collected 20 gold. There total is now 37 gold",
+                                "undefined",
+                                "Monsieur Hood is attacking with a Bow and Arrow",
+                                "Monsieur Hood is defending with Tunic",
+                                "Monsieur Hood collected 17 gold. There total is now 33 gold",
+                                "undefined",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "shrek.attackAbility$ = new Sword();\nconsole.log(shrek.attack())"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "Shrek is attacking with a Sword",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "typescript",
+            "source": [
+                ""
             ],
             "outputs": []
         },
